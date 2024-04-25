@@ -10,7 +10,7 @@ public class BoardGraphics {
 
     // handle all board init, making board, picking where the snake should spawn,
     // putting the first apple, etc
-    public void initBoard() {
+    public static void initBoard() {
         Logging.debug("Starting board init");
     }
 }

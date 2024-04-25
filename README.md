@@ -1,4 +1,4 @@
-#sneka Jave Game cs202 Fornker 
+# sneka Jave Game cs202 Fornker 
 
 Snek, Eqw E we are  amake snake iN Javce program lnguage Snek Is vert good Gaem We loev SEnk 
 

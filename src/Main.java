@@ -1,5 +1,9 @@
+import util.*;
+
 public class Main {
     public static void main(String args[]) {
-        System.out.println("java sucks");
+        BoardGraphics bg = new BoardGraphics();
+        Logging.info("java sucks");
+        bg.initBoard();
     }
 }

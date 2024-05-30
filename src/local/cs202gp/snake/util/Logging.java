@@ -1,4 +1,4 @@
-package util;
+package local.cs202gp.snake.util;
 
 public class Logging {
     // change to false for release builds

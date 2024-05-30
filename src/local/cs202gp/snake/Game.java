@@ -1,3 +1,4 @@
+package local.cs202gp.snake;
 
 public class Game {
     static boolean m_shouldExit = false;

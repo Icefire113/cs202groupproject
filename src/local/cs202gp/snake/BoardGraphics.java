@@ -1,6 +1,7 @@
-import java.util.Random;
+package local.cs202gp.snake;
 
-import util.*;
+import java.util.Random;
+import local.cs202gp.snake.util.*;
 
 public class BoardGraphics {
 

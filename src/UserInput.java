@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class UserInput {
     static Scanner scanner = new Scanner(System.in);
 
-    public static void handleUserInput() {
+    public static Direction handleUserInput() {
         String sDir = scanner.nextLine();
         Direction dir = Direction.NONE;
         if (sDir.length() > 0) {
@@ -27,9 +27,9 @@ public class UserInput {
                     break;
             }
         }
-        if (dir == Direction.EXIT) {
+        if (dir == Direction.EXIT)
             Game.m_shouldExit = true;
-        }
-        System.out.println("input was: " + dir);
+
+        return dir;
     }
 }

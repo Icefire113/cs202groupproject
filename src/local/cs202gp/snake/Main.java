@@ -10,5 +10,6 @@ public class Main {
         g.runGame();
 
         Logging.info("java still sucks");
+        System.exit(0);
     }
 }

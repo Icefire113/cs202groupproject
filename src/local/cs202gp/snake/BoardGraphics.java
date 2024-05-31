@@ -46,6 +46,7 @@ public class BoardGraphics {
     public static void update(Direction dir, double deltaTime) {
         if (dir == Direction.NONE)
             return;
+        Logging.info("Moving " + dir);
 
     }
 }

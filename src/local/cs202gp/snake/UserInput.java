@@ -16,6 +16,7 @@ public class UserInput {
 
     public static void destroy() {
         try {
+            Logging.debug("Closing terminal");
             term.close();
         } catch (Exception e) {
             Logging.error(e.getMessage());
@@ -26,6 +27,7 @@ public class UserInput {
     public static void initUserInput() {
         try {
             term = TerminalBuilder.terminal();
+            term.enterRawMode();
         } catch (Exception e) {
             Logging.error("Failed to create terminal! " + e);
             Game.g_shouldExit = true;
@@ -36,7 +38,6 @@ public class UserInput {
     public static Direction handleUserInput() {
         int character = -1;
         try {
-            term.enterRawMode();
             character = term.reader().read();
         } catch (Exception e) {
             Logging.error(e.getMessage());

@@ -25,6 +25,7 @@ public class UserInput {
     }
 
     public static void initUserInput() {
+        Logging.info("WASD to move + E to exit");
         try {
             term = TerminalBuilder.terminal();
             term.enterRawMode();

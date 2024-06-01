@@ -7,9 +7,9 @@ public class Logging {
     // prints the string passed to it after the string "[DEBUG]" only if the local
     // varible is true
     public static void debug(String x) {
-        if (m_debug) {
+        if (m_debug)
             System.out.println("[DEBUG] " + x);
-        }
+
     }
 
     public static void info(String x) {
@@ -17,6 +17,7 @@ public class Logging {
     }
 
     public static void error(String x) {
-        System.out.println("[ERROR] " + x);
+        if (m_debug)
+            System.out.println("[ERROR] " + x);
     }
 }

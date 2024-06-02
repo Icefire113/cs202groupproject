@@ -12,6 +12,18 @@ public class Logging {
 
     }
 
+    public static void prettyPrintArray(int[][] twoDm) {
+        if (m_debug) {
+            for (int[] row : twoDm) {
+                for (int i : row) {
+                    System.out.print(i);
+                    System.out.print(" ");
+                }
+                System.out.println();
+            }
+        }
+    }
+
     public static void info(String x) {
         System.out.println("[INFO] " + x);
     }

@@ -1,12 +1,17 @@
 package local.cs202gp.snake;
 
 ////////////////////////////////////////////////
-//  Enum defining directions
+//  Enum defining controller inputs
 ////////////////////////////////////////////
 
-public enum Direction {
+public enum CONTROLS {
+    NONE,
     UP,
     DOWN,
     LEFT,
-    RIGHT
+    RIGHT,
+    PAUSE,
+    ENTER,
+    BACK,
+    EXIT
 }

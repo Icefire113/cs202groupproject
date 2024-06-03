@@ -6,6 +6,7 @@ import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.InfoCmp.Capability;
 
 import local.cs202gp.snake.util.Logging;
 
@@ -29,6 +30,7 @@ public class UserInput {
         try {
             term = TerminalBuilder.terminal();
             term.enterRawMode();
+            term.puts(Capability.cursor_invisible);
         } catch (Exception e) {
             Logging.error("Failed to create terminal! " + e);
             Game.g_shouldExit = true;

@@ -1,30 +1,20 @@
 package local.cs202gp.snake;
 
-import java.util.Random;
-
-import org.jline.utils.Log;
+import org.jline.utils.InfoCmp.Capability;
 
 import local.cs202gp.snake.util.*;
 
 public class BoardGraphics {
 
     // board sizes
-    final static int boardX = 20;
-    final static int boardY = 20;
+    final public static int boardX = 20;
+    final public static int boardY = 20;
 
-    final static char boardEmpty = ' ';
-    final static char apple = '@';
-    final static char snakeHead = 'O';
-    final static char snakeBody = '*';
-    final static char boardWall = '#';
-
-    static int snakeX = 0;
-    static int snakeY = 0;
-    static int snakeLength = 1;
-    // this is the path the snake took, 1 are cells that will be removed on next
-    // move, and 0 is where the snake hasnt been, anything else can be followed up
-    // to determine where the path the snake has taken
-    static int[][] snakePath = new int[boardX][boardY];
+    final public static char boardEmpty = ' ';
+    final public static char apple = '@';
+    final public static char snakeHead = 'O';
+    final public static char snakeBody = '*';
+    final public static char boardWall = '#';
 
     private static char[][] board = new char[boardX][boardY];
 
@@ -43,25 +33,16 @@ public class BoardGraphics {
 
         for (int i = 0; i < boardX; i++) {
             for (int j = 0; j < boardY; j++) {
-                board[i][j] = boardEmpty;
+                setCords(i, j, boardEmpty);
             }
         }
-
-        // pick starting point
-        snakeX = new Random().nextInt(boardX);
-        snakeY = new Random().nextInt(boardY);
-        Logging.debug("Snake start pos: (" + snakeX + ", " + snakeY + ")");
-
-        board[snakeX][snakeY] = snakeHead;
-
-        // default direction is up
 
     }
 
     public static void clearAndPrint() {
         try {
-            // UserInput.term.puts(Capability.clear_screen);
-            // UserInput.term.flush();
+            UserInput.term.puts(Capability.clear_screen);
+            UserInput.term.flush();
         } catch (Exception e) {
             Logging.error("Error clearing screen:  " + e);
         }
@@ -69,7 +50,7 @@ public class BoardGraphics {
         String toPrint = "";
         for (int i = 0; i < boardX; i++) {
             for (int j = 0; j < boardY; j++) {
-                toPrint += board[i][j];
+                toPrint += board[i][j] + " ";
             }
             toPrint += "\n";
         }
@@ -77,32 +58,23 @@ public class BoardGraphics {
 
     }
 
-    public static void updateSnakeWeights() {
-        for (int i = 0; i < boardX; i++) {
-            for (int j = 0; j < boardY; j++) {
-                if (snakePath[i][j] > 0)
-                    snakePath[i][j] -= 1;
-            }
-        }
-        snakePath[snakeX][snakeY] = snakeLength;
-        Logging.prettyPrintArray(snakePath);
-    }
-
     public static void updateBoard() {
         for (int i = 0; i < boardX; i++) {
             for (int j = 0; j < boardY; j++) {
-                if (snakePath[i][j] < 1) {
-                    board[i][j] = boardEmpty;
+                if (GameLogic.snakePath[i][j] < 1) {
+                    setCords(i, j, boardEmpty);
+                } else {
+                    setCords(i, j, snakeBody);
                 }
             }
         }
-        board[snakeX][snakeY] = snakeHead;
+        setCords(GameLogic.snakeX, GameLogic.snakeY, snakeHead);
     }
 
     // called each 'frame' to update the display
     // we should prolly move the snake around every 3/4 of a second, but should
     // adjust it after playtesting
-    public static void update(Direction dir, double deltaTime) {
+    public static void update(Direction dir) {
         if (dir == Direction.NONE)
             return;
 
@@ -123,19 +95,17 @@ public class BoardGraphics {
             default:
                 break;
         }
-        Logging.debug("New pos: (" + snakeX + ", " + snakeY + ")");
+        Logging.debug("New pos: (" + GameLogic.snakeX + ", " + GameLogic.snakeY + ")");
 
-        updateSnakeWeights();
         updateBoard();
-        clearAndPrint();
     }
 
     // move by x, y relative to current snake position
     private static void move(int x, int y) {
-        if (!checkCords(snakeX + x, snakeY + y))
+        if (!checkCords(GameLogic.snakeX + x, GameLogic.snakeY + y))
             return;
-        snakeX += x;
-        snakeY += y;
+        GameLogic.snakeX += x;
+        GameLogic.snakeY += y;
     }
 
     private static boolean checkCords(int x, int y) {
@@ -144,5 +114,11 @@ public class BoardGraphics {
             return false;
         }
         return true;
+    }
+
+    public static void setCords(int x, int y, char toSet) {
+        if (!checkCords(x, y))
+            return;
+        board[x][y] = toSet;
     }
 }

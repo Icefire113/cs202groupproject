@@ -68,7 +68,6 @@ public class UserInput extends Thread{
 
         char cDir = (char) character;
         
-
         switch (cDir) {
             case 'w':
                 controller = CONTROLS.UP;

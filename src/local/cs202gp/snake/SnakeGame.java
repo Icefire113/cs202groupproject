@@ -26,10 +26,9 @@ public class SnakeGame {
 
         Random rand = new Random();
 
-        int n = 1;
-        int d = 1;
-        gameWidth   = d * (70-2)/n;
-        gameHeight  = d * ((35-2))/n;
+        int n = 2;
+        gameWidth   = (70-2)/n;
+        gameHeight  = ((35-2))/n;
 
         appleX = rand.nextInt(gameWidth);
         appleY = rand.nextInt(gameHeight);
@@ -85,11 +84,20 @@ public class SnakeGame {
                 snek.getheadY() == appleY 
                 )
                 {
-                    snek.moveOnApple(dir);
+                    
+                    StdAudio.play("Sounds/apple.wav");
 
                     Random rand = new Random();
-                    appleX = rand.nextInt(gameWidth);
-                    appleY = rand.nextInt(gameHeight);
+
+                    while(snek.hasPoint(new point(appleX, appleY))) {
+
+                        appleX = rand.nextInt(gameWidth);
+                        appleY = rand.nextInt(gameHeight);
+
+                    }
+
+
+                    snek.moveOnApple(dir);
                     
                     
 
@@ -104,8 +112,11 @@ public class SnakeGame {
 
         }
         drawApple(s);
-
         drawSnake(s);
+        s.display();
+        StdAudio.play("Sounds/death.wav");
+
+
 
         return true;
 
@@ -120,7 +131,7 @@ public class SnakeGame {
         int x = appleX * pixelWidth;
         int y = appleY * pixelHeight;
 
-        Color red = new Color(255,0,0);
+        Color red = new Color(220,0,0);
 
         for(int i =0; i < pixelWidth; i++){
 
@@ -146,13 +157,14 @@ public class SnakeGame {
             int x = snek.getPoint(a).getX() * pixelWidth;
             int y = snek.getPoint(a).getY() * pixelHeight;
 
-            Color green = new Color(0,255 * (a % 2),0);
+            Color green = new Color(0,150 * (a % 2),0);
 
             for(int i =0; i < pixelWidth; i++){
 
 
                 for(int j = 0; j < pixelHeight; j++){
 
+                    
                     s.setPixelColor(x + i + 1, y + j + 1, green);
                     s.setPixel(x + i + 1, y + j + 1, '▚');
 

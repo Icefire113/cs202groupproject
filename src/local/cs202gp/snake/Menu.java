@@ -53,6 +53,10 @@ public class Menu {
 
     Menu(int x, int y, int width, int height){
 
+
+        StdAudio.play("Sounds/menuopen.wav");
+
+
         this.width = width;
         this.height = height;
 
@@ -194,6 +198,9 @@ public class Menu {
                             cursorSelection = (char)(options.length-1);
                         }
                         UserInput.seenControl();
+
+                        StdAudio.play("Sounds/menuclick.wav");
+
                         
                     break;
                     case DOWN:
@@ -201,7 +208,21 @@ public class Menu {
                         cursorSelection = (char)(((int)cursorSelection + 1)%(options.length));
 
                         UserInput.seenControl();
+
+                        StdAudio.play("Sounds/menuclick.wav");
+
                         
+                    break;
+
+                    case LEFT:
+                        StdAudio.play("Sounds/menubadkey.wav");
+                        UserInput.seenControl();
+
+                    break;
+                    case RIGHT:
+                        StdAudio.play("Sounds/menubadkey.wav");
+                        UserInput.seenControl();
+
                     break;
 
                     case ENTER:

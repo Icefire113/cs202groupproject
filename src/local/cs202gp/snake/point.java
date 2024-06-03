@@ -41,14 +41,15 @@ public class point {
     //  genral methods
     ////////////////////////////////////////////
     public void move(Direction d){
+        
 
         switch(d){
 
             case UP:
-                y++;
+                y--;
             break;
             case DOWN:
-                y--;
+                y++;
             break;
             case RIGHT:
                 x++;
@@ -60,6 +61,38 @@ public class point {
 
 
         }
+    };
+
+    public void moveWithWrap(Direction d, int w, int h){
+        
+
+        switch(d){
+
+            case UP:
+                y--;
+            break;
+            case DOWN:
+                y++;
+            break;
+            case RIGHT:
+                x++;
+            break;
+            case LEFT:
+                x--;
+            break;
+        }
+
+        if(x < 0) {
+            x = w - 1;
+        }
+        if(y < 0) {
+            y = h - 1;
+        }
+
+        x = x % w;
+        y = y % h;
+
+
     };
 
     ////////////////////////////////////////////////

@@ -1,16 +1,33 @@
 package local.cs202gp.snake;
 
+////////////////////////////////////////////////
+//  Color class implemented to make code 
+//      more readable/mofdifiable
+////////////////////////////////////////////
 public class Color{
 
+
+    ////////////////////////////////////////////////
+    //  8 bit color data
+    ////////////////////////////////////////////
     private char r;
     private char g;
     private char b;
+
+    ////////////////////////////////////////////////
+    //  used to calculate delta functions,
+    //      allows for colors to gradually 
+    //      change over time (should only
+    //      ever store values of +1 or -1)
+    ////////////////////////////////////////////
     private int dr = 1;
     private int dg = 1;
     private int db = 1;
 
 
-
+    ////////////////////////////////////////////////
+    //  constructors (default color is white)
+    ////////////////////////////////////////////
     Color(){
 
         r = (char)255;
@@ -20,6 +37,7 @@ public class Color{
 
     }
 
+    
     Color(char r, char g, char b){
 
         this.r = r;
@@ -29,8 +47,20 @@ public class Color{
 
 
     }
+    Color(int r, int g, int b){
+
+        this.r = (char)r;
+        this.g = (char)g;
+        this.b = (char)b;
 
 
+
+    }
+
+
+    ////////////////////////////////////////////////
+    //  mutator
+    ////////////////////////////////////////////
     public void set(char r, char g, char b){
 
         this.r = r;
@@ -41,18 +71,9 @@ public class Color{
 
     }
 
-    public char getR(){
-
-        return r;
-    }
-    public char getG(){
-
-        return g;
-    }
-    public char getB(){
-
-        return b;
-    }
+    ////////////////////////////////////////////////
+    //  mutators for individual colors
+    ////////////////////////////////////////////
 
     public void setR(char r){
 
@@ -66,6 +87,34 @@ public class Color{
 
         this.b = b;
     }
+
+    ////////////////////////////////////////////////
+    //  accessor methods
+    ////////////////////////////////////////////
+    public char getR(){
+
+        return r;
+    }
+    public char getG(){
+
+        return g;
+    }
+    public char getB(){
+
+        return b;
+    }
+
+
+    
+
+
+
+    ////////////////////////////////////////////////
+    //  delta fucntions allow you to change
+    //      color over time this is mostly
+    //      used for aesthetic purposes in
+    //      the background
+    ////////////////////////////////////////////
 
     public void ΔR(){
 

@@ -39,6 +39,10 @@ public class Game {
     Color topLeft;
     Color bottomRight;
 
+    Direction d;
+
+
+    private SnakeGame snakegame;
 
     ////////////////////////////////////////////////
     //  Monitor time
@@ -49,6 +53,8 @@ public class Game {
     private long currentTime        = System.currentTimeMillis();
     private long lastTime           = System.currentTimeMillis();
     private long lastMoveTime       = System.currentTimeMillis();
+
+
 
 
     ////////////////////////////////////////////////
@@ -85,6 +91,40 @@ public class Game {
         bottomRight = new Color(r, g, b);
 
 
+        s.clearBufferAsGradient(topLeft, bottomRight);
+
+
+        ////////////////////////////////////////////////
+        //  Hide cursor
+        ////////////////////////////////////////////
+        System.out.println("\u001B[?25l");
+
+
+        
+        snakegame = new SnakeGame(s);
+
+        d = Direction.UP;
+
+    }
+
+    private void reset() {
+
+        int n = 2;
+        s = new Screen(70 * n,35);
+
+
+        Random rand = new Random();
+
+        char r, g, b;
+        r = (char)rand.nextInt(255);
+        g = (char)rand.nextInt(255);
+        b = (char)rand.nextInt(255);
+        topLeft = new Color(r, g, b);
+
+        r = (char)rand.nextInt(255);
+        g = (char)rand.nextInt(255);
+        b = (char)rand.nextInt(255);
+        bottomRight = new Color(r, g, b);
 
 
         s.clearBufferAsGradient(topLeft, bottomRight);
@@ -94,6 +134,14 @@ public class Game {
         //  Hide cursor
         ////////////////////////////////////////////
         System.out.println("\u001B[?25l");
+
+
+        
+        snakegame = new SnakeGame(s);
+
+        d = Direction.UP;
+
+
     }
 
 
@@ -129,12 +177,30 @@ public class Game {
             CONTROLS controller = keylogger.getUserInput();
 
 
-            if(controller == CONTROLS.EXIT){
+            switch(controller){
                 //quitGame = true;
 
+                case EXIT:
+                Menu m = new Menu(s.getScreenWidth()/4, s.getScreenHeight() * 1 / 8, s.getScreenWidth()/ 4, s.getScreenHeight() * 3 /4);
+                m.OpenMenu(s, keylogger);
+                break;
 
-                Menu m = new Menu();
-                m.OpenMenu(s, keylogger, s.getScreenWidth()/4, s.getScreenHeight() * 1 / 8, s.getScreenWidth()/ 4, s.getScreenHeight() * 3 /4);
+                case LEFT:
+                    d = Direction.LEFT;
+                break;
+                case RIGHT:
+                    d = Direction.RIGHT;
+                break;
+                case UP:
+                    d = Direction.UP;
+                break;
+                case DOWN:
+                    d = Direction.DOWN;
+                break;
+
+
+                default:
+                break;
             }
 
             ////////////////////////////////////////////////
@@ -143,7 +209,6 @@ public class Game {
             ////////////////////////////////////////////
             if(dt >= Δt){
 
-                
                 lastTime = currentTime;
 
                 topLeft.ΔR();
@@ -157,7 +222,18 @@ public class Game {
 
                 s.clearBufferAsGradient(topLeft, bottomRight);
 
+
+                boolean isDead = snakegame.update(s,d);
+
+                if(isDead){
+
+                    reset();
+                }
+
                 s.display();
+                
+
+                
                 
             }
             

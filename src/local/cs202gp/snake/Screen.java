@@ -63,6 +63,16 @@ public class Screen {
 
     }
 
+    private String getPixelString(int x, int y){
+
+
+        return ESC + "[38;2;" + r[x][y] + ";"+ g[x][y] + ";"+ b[x][y] + "m" + buffer.charAt(y*width + x);
+    }
+    private String getPixelString(int x, int y, char c){
+
+
+        return ESC + "[38;2;" + r[x][y] + ";"+ g[x][y] + ";"+ b[x][y] + "m" + c;
+    }
 
     private void createBuffers(){
 
@@ -134,24 +144,26 @@ public class Screen {
 
     }
     public void display() {
+        
 
-
-
-        //ESC[={value}h
         String disp = "";
-
         BufferedWriter log = new BufferedWriter(new OutputStreamWriter(System.out));
-        moveToPixel(0,0);
-        for(int y =0; y < height; y++){
-            for(int x = 0; x < width; x++){
-                //System.out.print("*");
 
-                disp += (ESC + "[38;2;" + r[x][y] + ";"+ g[x][y] + ";"+ b[x][y] + "m" + buffer.charAt(y*width + x));
-            }
-            disp += "\n";
-        }
+
+
+        moveToPixel(0,0);
+
+
+        drawTopLine(log);
+
         try{
-            log.write(disp);
+
+            
+            drawMainScreen(log);
+            drawBottomLine(log);
+
+
+
 
             log.flush();
         } catch(IOException e){
@@ -176,7 +188,8 @@ public class Screen {
     }
     public void setPixelColor(int x, int y, Color c){
 
-        if(x < width && y < height){
+        if(x < width && y < height)
+        {
             this.r[x][y] = c.getR();
             this.g[x][y] = c.getG();
             this.b[x][y] = c.getB();
@@ -231,37 +244,7 @@ public class Screen {
     }
 
 
-    public void clearBufferAsGradient
-    (
-        char r1, 
-        char g1, 
-        char b1, 
-        char r2,
-        char g2,
-        char b2
-        
-    ){
-
-        float dr = ((float)r2 - (float)r1)/(float)width;
-        float dg = ((float)g2 - (float)g1)/(float)width;
-        float db = ((float)b2 - (float)b1)/(float)height;
-
-        for(int x = 0; x < width; x++){
-
-            for(int y = 0; y < height; y++){
-
-                
-                r[x][y] = (int)(r1 + x * dr);
-                g[x][y] = (int)(g1 + x * dg);
-                b[x][y] = (int)(b1 + y * db);
-            
-            }
-
-        }
-        
-
-
-    }
+   
     public void clearBufferAsGradient
     (
         Color color1,
@@ -282,6 +265,8 @@ public class Screen {
                 r[x][y] = (int)(color1.getR() + x * dr);
                 g[x][y] = (int)(color1.getG() + x * dg);
                 b[x][y] = (int)(color1.getB() + y * db);
+
+                setPixel(x,y, bckgrndChar);
             
             }
 
@@ -292,33 +277,88 @@ public class Screen {
     }
 
 
-    public void clearBufferAsGradientDistance
-    (
-        Color color1,
-        Color color2
-        
-    ){
+    private void drawTopLine(BufferedWriter log) {
 
-        double dMax = Math.sqrt(width * width + height * height);
-        double dr = ((double)color2.getR() - (double)color1.getR())/dMax;
-        double dg = ((double)color2.getG() - (double)color1.getG())/dMax;
-        double db = ((double)color2.getB() - (double)color1.getB())/dMax;
+        try {
+        log.write(getPixelString(0, 0, '╔'));
 
-        for(int x = 0; x < width; x++){
 
-            for(int y = 0; y < height; y++){
-
-                double d = Math.sqrt(x * x + y * y);
-                r[x][y] = (int)(color1.getR() + d * dr);
-                g[x][y] = (int)(color1.getG() + d * dg);
-                b[x][y] = (int)(color1.getB() + d * db);
-            
+        String txt = "[SNAKE]";
+            for(int x = 1; x < width/2 - 2 - txt.length()/2; x++){
+                log.write(getPixelString(x, 0, '═'));
             }
 
+            log.write(txt);
+
+            for(int x = width/2 - 1; x < width - 1 - txt.length()/2; x++){
+                log.write(getPixelString(x, 0, '═'));
+            }
+
+
+
+        log.write(getPixelString(width - 1, 0, '╗'));
+        log.write('\n');
         }
-        
+        catch(IOException e) {
+
+
+
+        }
 
 
     }
 
+    private void drawBottomLine(BufferedWriter log) {
+
+        try {
+        log.write(getPixelString(0, height - 1, '╚'));
+            for(int x = 1; x < width - 1; x++){
+                log.write(getPixelString(x, height - 1, '═'));
+            }
+
+        log.write(getPixelString(width - 1, height - 1, '╝'));
+        log.write('\n');
+        }
+        catch(IOException e) {
+
+
+
+        }
+
+
+    }
+    
+    
+    private void drawMainScreen(BufferedWriter log) {
+
+        try {
+
+
+
+            for(int y =1; y < height - 1; y++){
+                log.write(getPixelString(0, y, '║'));
+
+                for(int x = 1; x < width - 1; x++){
+                    log.write(getPixelString(x, y));
+                }
+                log.write(getPixelString(width - 1, y, '║'));
+                log.write("\n");
+
+
+            }
+
+            
+        }
+        catch(IOException e) {
+
+
+
+        }
+
+
+    }
+
+
+
+    
 }

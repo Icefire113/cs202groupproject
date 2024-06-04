@@ -18,6 +18,7 @@ public class UserInput {
     public static void destroy() {
         try {
             Logging.debug("Closing terminal");
+            term.puts(Capability.cursor_normal);
             term.close();
         } catch (Exception e) {
             Logging.error(e.getMessage());

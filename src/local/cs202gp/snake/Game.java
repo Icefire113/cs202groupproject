@@ -4,12 +4,11 @@ import java.util.Random;
 
 public class Game {
 
-    ////////////////////////////////////////////////
-    //  Enums and the such
+    ////////////////////////////////////////////
+    // Enums and the such
     ////////////////////////////////////////////
 
-    enum difficulty
-    {
+    enum difficulty {
 
         DONT_HURT_ME,
         KILL_THEM_ALL,
@@ -17,8 +16,8 @@ public class Game {
         BLEEDING_MACHINE,
         GOD_SHALL_WEEP
     }
-    enum mode
-    {
+
+    enum mode {
 
         START,
         SELECT,
@@ -26,9 +25,9 @@ public class Game {
         DEATH
     }
 
-    ////////////////////////////////////////////////
-    //  Information related to current 
-    //      game status
+    ////////////////////////////////////////////
+    // Information related to current
+    // game status
     ////////////////////////////////////////////
     static boolean quitGame = false;
     static difficulty gameState;
@@ -41,222 +40,173 @@ public class Game {
 
     Direction d;
 
-
     private SnakeGame snakegame;
 
-    ////////////////////////////////////////////////
-    //  Monitor time
     ////////////////////////////////////////////
-    final long Δt           =  100;
-    
+    // Monitor time
+    ////////////////////////////////////////////
+    final long deltaT = 100;
+
     private long startTime;
-    private long currentTime        = System.currentTimeMillis();
-    private long lastTime           = System.currentTimeMillis();
-    private long lastMoveTime       = System.currentTimeMillis();
+    private long currentTime = System.currentTimeMillis();
+    private long lastTime = System.currentTimeMillis();
+    private long lastMoveTime = System.currentTimeMillis();
 
-
-
-
-    ////////////////////////////////////////////////
-    //  Initialize Game
+    ////////////////////////////////////////////
+    // Initialize Game
     ////////////////////////////////////////////
     Game() {
-
-        ////////////////////////////////////////////////
-        //  get relavent information for
-        //  game
+        ////////////////////////////////////////////
+        // get relavent information for
+        // game
         ////////////////////////////////////////////
         startTime = System.currentTimeMillis();
         keylogger = new UserInput();
-        
-        ////////////////////////////////////////////////
-        //  Initialize graphics and user controls
+
+        ////////////////////////////////////////////
+        // Initialize graphics and user controls
         ////////////////////////////////////////////
         UserInput.initUserInput();
         int n = 2;
-        s = new Screen(70 * n,35);
-
+        s = new Screen(70 * n, 35);
 
         Random rand = new Random();
 
         char r, g, b;
-        r = (char)rand.nextInt(255);
-        g = (char)rand.nextInt(255);
-        b = (char)rand.nextInt(255);
+        r = (char) rand.nextInt(255);
+        g = (char) rand.nextInt(255);
+        b = (char) rand.nextInt(255);
         topLeft = new Color(r, g, b);
 
-        r = (char)rand.nextInt(255);
-        g = (char)rand.nextInt(255);
-        b = (char)rand.nextInt(255);
+        r = (char) rand.nextInt(255);
+        g = (char) rand.nextInt(255);
+        b = (char) rand.nextInt(255);
         bottomRight = new Color(r, g, b);
-
 
         s.clearBufferAsGradient(topLeft, bottomRight);
 
-
-        ////////////////////////////////////////////////
-        //  Hide cursor
-        ////////////////////////////////////////////
-        System.out.println("\u001B[?25l");
-
-
-        
         snakegame = new SnakeGame(s);
 
         d = Direction.UP;
-
     }
 
     private void reset() {
 
         int n = 2;
-        s = new Screen(70 * n,35);
-
+        s = new Screen(70 * n, 35);
 
         Random rand = new Random();
 
         char r, g, b;
-        r = (char)rand.nextInt(255);
-        g = (char)rand.nextInt(255);
-        b = (char)rand.nextInt(255);
+        r = (char) rand.nextInt(255);
+        g = (char) rand.nextInt(255);
+        b = (char) rand.nextInt(255);
         topLeft = new Color(r, g, b);
 
-        r = (char)rand.nextInt(255);
-        g = (char)rand.nextInt(255);
-        b = (char)rand.nextInt(255);
+        r = (char) rand.nextInt(255);
+        g = (char) rand.nextInt(255);
+        b = (char) rand.nextInt(255);
         bottomRight = new Color(r, g, b);
-
 
         s.clearBufferAsGradient(topLeft, bottomRight);
 
-
-        ////////////////////////////////////////////////
-        //  Hide cursor
+        ////////////////////////////////////////////
+        // Hide cursor
         ////////////////////////////////////////////
         System.out.println("\u001B[?25l");
 
-
-        
         snakegame = new SnakeGame(s);
 
         d = Direction.UP;
 
-
     }
 
-
-    ////////////////////////////////////////////////
-    //  handle game logic
+    ////////////////////////////////////////////
+    // handle game logic
     ////////////////////////////////////////////
     public void runGame() {
-
-
-        
-        
-        
         keylogger.start();
 
-
-
-        ////////////////////////////////////////////////
-        //  gameLoop
+        ////////////////////////////////////////////
+        // gameLoop
         ////////////////////////////////////////////
         while (!quitGame) {
-            
 
-
-            ////////////////////////////////////////////////
-            //  update time
+            ////////////////////////////////////////////
+            // update time
             ////////////////////////////////////////////
             currentTime = System.currentTimeMillis();
             long dt = currentTime - lastTime;
 
-            ////////////////////////////////////////////////
-            //  update user input
             ////////////////////////////////////////////
-            CONTROLS controller = keylogger.getUserInput();
+            // update user input
+            ////////////////////////////////////////////
+            Controls controller = keylogger.getUserInput();
 
-
-            switch(controller){
-                //quitGame = true;
+            switch (controller) {
+                // quitGame = true;
 
                 case EXIT:
-                Menu m = new Menu(s.getScreenWidth()/4, s.getScreenHeight() * 1 / 8, s.getScreenWidth()/ 4, s.getScreenHeight() * 3 /4);
-                m.OpenMenu(s, keylogger);
-                break;
+                    Menu m = new Menu(s.getScreenWidth() / 4, s.getScreenHeight() * 1 / 8, s.getScreenWidth() / 4,
+                            s.getScreenHeight() * 3 / 4);
+                    m.OpenMenu(s, keylogger);
+                    break;
 
                 case LEFT:
                     d = Direction.LEFT;
-                break;
+                    break;
                 case RIGHT:
                     d = Direction.RIGHT;
-                break;
+                    break;
                 case UP:
                     d = Direction.UP;
-                break;
+                    break;
                 case DOWN:
                     d = Direction.DOWN;
-                break;
-
+                    break;
 
                 default:
-                break;
+                    break;
             }
 
-            ////////////////////////////////////////////////
-            //  check if it is time to update game
-            //  to next frame
             ////////////////////////////////////////////
-            if(dt >= Δt){
-
+            // check if it is time to update game
+            // to next frame
+            ////////////////////////////////////////////
+            if (dt >= deltaT) {
                 lastTime = currentTime;
 
-                topLeft.ΔR();
-                topLeft.ΔG();
-                topLeft.ΔB();
+                topLeft.deltaR();
+                topLeft.deltaG();
+                topLeft.deltaB();
 
-                bottomRight.ΔR();
-                bottomRight.ΔG();
-                bottomRight.ΔB();
-
+                bottomRight.deltaR();
+                bottomRight.deltaG();
+                bottomRight.deltaB();
 
                 s.clearBufferAsGradient(topLeft, bottomRight);
 
+                boolean isDead = snakegame.update(s, d);
 
-                boolean isDead = snakegame.update(s,d);
-
-                if(isDead){
-
+                if (isDead) {
                     reset();
                 }
 
                 s.display();
-                
-
-                
-                
             }
-            
         }
         UserInput.destroy();
-        ////////////////////////////////////////////////
-        //  Restore cursor
-        ////////////////////////////////////////////
-        System.out.println("\u001B[?25H");
-        System.out.print("\u001B[38;2;255;255;255m");
 
-        try 
-        {
+        try {
             UserInput.kill();
             keylogger.interrupt();
             keylogger.join();
-            System.out.println("____________thread joined_________");
-            
-        } 
-        catch(InterruptedException e)
-        {
-            System.out.println(e);// this part is executed when an exception (in this example InterruptedException) occurs
+            System.out.println("____________thread joined____________");
+
+        } catch (InterruptedException e) {
+            System.out.println(e);// this part is executed when an exception (in this example
+                                  // InterruptedException) occurs
         }
-        
+
     }
 }

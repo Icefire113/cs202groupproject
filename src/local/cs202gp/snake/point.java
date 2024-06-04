@@ -1,137 +1,112 @@
 package local.cs202gp.snake;
 
-////////////////////////////////////////////////
+////////////////////////////////////////////
 //  Point class mostly used to chech to see
 //      if the point in game is snake or
 //      apple
 ////////////////////////////////////////////
 
 public class point {
-
-    ////////////////////////////////////////////////
-    //  data
+    ////////////////////////////////////////////
+    // data
     ////////////////////////////////////////////
     int x, y, z;
 
-    ////////////////////////////////////////////////
-    //  constructors
+    ////////////////////////////////////////////
+    // constructors
     ////////////////////////////////////////////
 
-    point(){
-
+    point() {
         this.x = 0;
         this.y = 0;
         this.z = 0;
     }
-    point(int x, int y){
 
+    point(int x, int y) {
         this.x = x;
         this.y = y;
         this.z = 0;
     }
 
-    point(int x, int y, int z){
-
+    point(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    ////////////////////////////////////////////////
-    //  genral methods
     ////////////////////////////////////////////
-    public void move(Direction d){
-        
-
-        switch(d){
-
+    // genral methods
+    ////////////////////////////////////////////
+    public void move(Direction d) {
+        switch (d) {
             case UP:
                 y--;
-            break;
+                break;
             case DOWN:
                 y++;
-            break;
+                break;
             case RIGHT:
                 x++;
-            break;
+                break;
             case LEFT:
                 x--;
-            break;
-
-
+                break;
 
         }
     };
 
-    public void moveWithWrap(Direction d, int w, int h){
-        
-
-        switch(d){
-
+    public void moveWithWrap(Direction d, int w, int h) {
+        switch (d) {
             case UP:
                 y--;
-            break;
+                break;
             case DOWN:
                 y++;
-            break;
+                break;
             case RIGHT:
                 x++;
-            break;
+                break;
             case LEFT:
                 x--;
-            break;
+                break;
         }
 
-        if(x < 0) {
+        if (x < 0) {
             x = w - 1;
         }
-        if(y < 0) {
+        if (y < 0) {
             y = h - 1;
         }
 
         x = x % w;
         y = y % h;
 
-
     };
 
-    ////////////////////////////////////////////////
-    //  mutators and accessors
     ////////////////////////////////////////////
-    public void move(int x, int y){
-
+    // mutators and accessors
+    ////////////////////////////////////////////
+    public void move(int x, int y) {
         this.x = x;
         this.y = y;
     };
 
-    public void move(int x, int y, int z){
-
+    public void move(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
     };
 
-
-    public int getX(){
-
+    public int getX() {
         return x;
     }
 
-    public int getY(){
-
+    public int getY() {
         return y;
     }
 
-
-    public int getZ(){
-
+    public int getZ() {
         return z;
     }
-   
-    
 
-
-
-
-    
 }

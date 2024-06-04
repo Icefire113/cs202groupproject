@@ -1,7 +1,5 @@
 package local.cs202gp.snake;
 
-import java.util.Scanner;
-
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
@@ -11,7 +9,6 @@ import org.jline.utils.InfoCmp.Capability;
 import local.cs202gp.snake.util.Logging;
 
 public class UserInput {
-    static Scanner scanner = new Scanner(System.in);
     public static Terminal term;
     static LineReader reader;
 

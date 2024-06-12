@@ -23,7 +23,7 @@ public class Screen {
     ////////////////////////////////////////////
     private int[][] r, g, b;
     private char bkgrndR, bkgrndG, bkgrndB;
-    private char bckgrndChar = '█';
+    private char bckgrndChar = '@';
 
     ////////////////////////////////////////////
     // constructors

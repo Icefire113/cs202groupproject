@@ -10,3 +10,4 @@ if you have issues compiling please contact us because I dont want to lose credi
 
 
 
+also this doesnt need to be specifiued because of the way open source licenses work but StdAudio.java is being used under an Open Source License

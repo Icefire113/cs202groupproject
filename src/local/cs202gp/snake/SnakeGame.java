@@ -97,7 +97,7 @@ public class SnakeGame {
             for (int i = 0; i < pixelWidth; i++) {
                 for (int j = 0; j < pixelHeight; j++) {
                     s.setPixelColor(x + i + 1, y + j + 1, green);
-                    s.setPixel(x + i + 1, y + j + 1, '▚');
+                    s.setPixel(x + i + 1, y + j + 1, 's');
                 }
             }
         }
